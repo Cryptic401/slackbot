@@ -18,3 +18,10 @@ functions:
       - http:
           path: "/events"
           method: post 
+  dispatcher2:
+
+    handler: dispatcher2.dispatch
+
+    events:
+
+      - sns: dispatch          
