@@ -3,8 +3,9 @@
 const Slack = require('slack');
 
 
-module.export.run = async (date) => {
+module.exports.run = async (data) => {
     const dataObject = JSON.parse (data.body);
+
 
     let response = {
         statusCode: 200,
@@ -13,26 +14,41 @@ module.export.run = async (date) => {
     }
 
     try {
-        switch (dataObject,type) {
-            case 'url_verification':
-                response.body = verifyCall (dataObject);
-                break;
+        if ( !('X-Slack-Retry-Num' in data.headers) )
+        {
+            switch (dataObject.type) {
+                case 'url_verification':
+                    response.body = verifyCall (dataObject);
+                    break;
+                case 'event_callback':
+    
+                    if (!dataObject.event.thread_ts){
+                        const params = {
+                            token: 'xoxb-2643825504114-2668919252422-4l9To8xgFFmRuQzgseGHsqtM',
+                            channel: dataObject.event.channel,
+                            text: 'This is the new thread you can talk in!',
+                            thread_ts: dataObject.event.ts
+                        }
+        
+                        Slack.chat.postMessage( params );
+                    }
+    
+                    response.body = {ok: true}
+    
+                    break;
+                    
+                }
         }
+    }
+    catch ( err ) {
 
     }
-    catch ( err ){
-
-    }
-    finally{
+    finally {
         return response;
     }
+
 }
 
 function verifyCall (data){
-    if ( data.token == 'vpkgGabsp9aWOZbVyjqjJjjV'){
-        return data.challenge;
-    }
-    else {
-        throw 'Verification failed';
-    }
+    return data.challenge;
 }

@@ -1,20 +1,20 @@
 service: slack-app
 provider:
   name: aws
-  runtime: nodejs12.x
-  region: eu-west-1
+  runtine: nodejs12.x
+  region: eu-west-2
   role: arn:aws:iam::211791358895:role/slack
   timeout: 5
   stage: ${opt:stage, 'dev'}
   memorySize: 128
-function:
+functions:
   dispatcher:
     handler: bot.run
     description: description
-  exclude:
-    - package-lock.json
-  optimize: true
-  events:
-    - http:
-      path: "/events"
-      method: post
+    exclude:
+      - package-lock.json
+    optimize: true
+    events:
+      - http:
+          path: "/events"
+          method: post 
