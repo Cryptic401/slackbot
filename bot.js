@@ -24,7 +24,7 @@ module.exports.run = async (data) => {
     
                     if (!dataObject.event.thread_ts){
                         const params = {
-                            token: 'xoxb-2643825504114-2668919252422-4l9To8xgFFmRuQzgseGHsqtM',
+                            token: 'xoxb-2643825504114-2662532794471-Jb3uemVCngY9uSS3jeqkYSES',
                             channel: dataObject.event.channel,
                             text: 'This is the new thread you can talk in!',
                             thread_ts: dataObject.event.ts
